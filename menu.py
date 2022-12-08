@@ -1,5 +1,5 @@
 import pygame
-from manage import game_loop
+#from manage import game_loop
 
 pygame.init()
 
@@ -71,8 +71,8 @@ def menu_loop():
 
         pygame.display.flip()
         clock.tick(60)
-    if button1.callback == "Start":
-        menu = False
-        game_loop()
+        if button1.callback == "Start":
+            menu = False
+            game_loop()
 
 menu_loop()

@@ -1,5 +1,5 @@
 import pygame
-import menu
+#import menu
 
 pygame.init()
 
@@ -13,13 +13,15 @@ screen.fill([0, 255, 255])
 
 main_hero = pygame.Rect(640, 360, 10, 20)
 
+
+
 moving_left = False
 moving_right = False
 
-jump = False
-jump_counter = 0
 
 def game_loop():
+    jump = False
+    jump_counter = 0
     game = True
     while game:
         for event in pygame.event.get():
