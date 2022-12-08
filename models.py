@@ -28,7 +28,6 @@ class Giga_enemy():
         self.dmg = 99999
         self.weapon = weapon
  
-
 class Vilager():
     def __init__(self, speak):
         self.speak = speak   
