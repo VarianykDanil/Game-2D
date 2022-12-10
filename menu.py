@@ -5,74 +5,89 @@ pygame.init()
 
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode((1280, 720))
-font = pygame.font.SysFont("Comic Sans MS", 20)
+font = pygame.font.Font(None, 55)
 class Button:
-    def __init__(self, text,  pos, font, bg="black", feedback=""):
-        self.x, self.y = pos
-        self.font = pygame.font.SysFont("Comic Sans MS", font)
-        self.feedback = feedback
-        self.callback = None
-        self.change_text(text, bg)
- 
-    def change_text(self, text, bg="black"):
-        self.text = self.font.render(text, 1, pygame.Color("White"))
-        self.size = self.text.get_size()
-        self.surface = pygame.Surface(self.size)
-        self.surface.fill(bg)
-        self.surface.blit(self.text, (0, 0))
-        self.rect = pygame.Rect(self.x, self.y, self.size[0], self.size[1])
- 
-    def show(buttons):
-        for button in buttons:
-            screen.blit(button.surface, (button.x, button.y))
- 
-    def click(self, event):
-        x, y = pygame.mouse.get_pos()
-        if event.type == pygame.MOUSEBUTTONDOWN:
+    def __init__(self, text, pos):
+        self.pressed = False
+
+        self.animations_fonts = [pygame.font.Font(None, i) for i in range(55, 77, 2)]
+        self.counter = 0
+        self.text = text
+
+        self.text_surf = font.render(text, True, '#F6FFFF')
+        self.default_size = tuple([self.text_surf.get_width(), self.text_surf.get_height()])
+        self.max_size = tuple(i for i in self.animations_fonts[10].size(text))
+        self.rect = pygame.Rect(pos, self.default_size)
+        
+        self.push_up_size = tuple(i for i in self.animations_fonts[-5].size(text))
+
+        self.text_rect = self.text_surf.get_rect(center = self.rect.center)
+        
+        self.top_color = '#475F77'
+    def draw(self):
+        pygame.draw.rect(screen, self.top_color, self.rect, -1) #-1
+        screen.blit(self.text_surf, self.text_rect)
+        self.check_click()
+
+    def check_click(self):
+        mouse_pos = pygame.mouse.get_pos()
+        if self.rect.collidepoint(mouse_pos):
+            self.top_color = '#D74B4B'
             if pygame.mouse.get_pressed()[0]:
-                if self.rect.collidepoint(x, y):
-                    self.change_text(self.feedback, bg="red")
-                    self.callback = "Start"
+                self.pressed = True
+                if self.rect.size != self.push_up_size:
+                    self.counter-=1
+                    self.text_surf = self.animations_fonts[self.counter].render(self.text, True, '#F6FFFF')
+                    self.var_width = round((self.rect.size[0] - self.text_surf.get_width())/2)
+                    self.var_height = round((self.rect.size[1] - self.text_surf.get_height())/2)
+                    
+                    self.rect.update(self.rect.x+self.var_width, self.rect.y+self.var_height, self.text_surf.get_width(), self.text_surf.get_height())
+                    self.text_rect = self.text_surf.get_rect(center = self.rect.center)
+            elif self.rect.size != self.max_size:
+                self.counter+=1
+                self.text_surf = self.animations_fonts[self.counter].render(self.text, True, '#F6FFFF')
+                #Вычисление на разницу от позиции предыдущего кадра текста кнопки:
+                self.var_width = round((self.text_surf.get_width() - self.rect.size[0])/2)
+                self.var_height = round((self.text_surf.get_height() - self.rect.size[1])/2)
+                #
+                self.rect.update(self.rect.x-self.var_width, self.rect.y-self.var_height, self.text_surf.get_width(), self.text_surf.get_height())
+                self.text_rect = self.text_surf.get_rect(center = self.rect.center)
             
-button1 = Button(
-    "Start",
-    (100, 100),
-    font=30,
-    bg="navy",
-    feedback="You clicked me")
+            else:
+                if self.pressed == True:
+                    print("click")
+                    self.pressed = False
+        else:
+            self.pressed = False
+            self.top_color = '#475F77'
+            if self.rect.size != self.default_size:
+                self.counter-=1
+                self.text_surf = self.animations_fonts[self.counter].render(self.text, True, '#F6FFFF')
+                self.var_width = round((self.rect.size[0] - self.text_surf.get_width())/2)
+                self.var_height = round((self.rect.size[1] - self.text_surf.get_height())/2)
+                
+                self.rect.update(self.rect.x+self.var_width, self.rect.y+self.var_height, self.text_surf.get_width(), self.text_surf.get_height())
+                self.text_rect = self.text_surf.get_rect(center = self.rect.center)
+            
+button1 = Button(text="Start!", pos=(100,100))
 
-button2 = Button(
-    "Options",
-    (100, 300),
-    font=30,
-    bg="navy",
-    feedback="You clicked me")
+button2 = Button(text="Settings", pos=(100,300))
 
-button3 = Button(
-    "Quit",
-    (100, 500),
-    font=30,
-    bg="navy",
-    feedback="You clicked me")
-buttons = [button1, button2, button3]
+button3 = Button(text="Quit", pos=(100,500))
+
 def menu_loop():
     menu = True
     while menu:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 menu = False
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-                menu = False
-            for button in buttons:
-                button.click(event)
         
-        screen.fill([0, 0, 255])
-        Button.show(buttons)
+        screen.fill([0, 0, 0])
 
+        button1.draw()
+        button2.draw()
+        button3.draw()
         pygame.display.flip()
         clock.tick(60)
-        if button1.callback == "Start":
-            menu = False
-            game_loop()
 
 menu_loop()
