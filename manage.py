@@ -1,66 +1,47 @@
 import pygame
 #import menu
+from settings import*
+from models import Graphic
 
 pygame.init()
 
 clock = pygame.time.Clock()
 
-screen_width = 1280
-screen_height = 720
-
-screen = pygame.display.set_mode((screen_width, screen_height))
-screen.fill([0, 255, 255])
-
-main_hero = pygame.Rect(640, 360, 10, 20)
 
 
+window = pygame.display.set_mode((screen_width, screen_height))
 
-moving_left = False
-moving_right = False
+background = Graphic(x = 0,y = 0, width = 100, height = 100, img_path = 'images/Fone.jpg')
+
+
 
 
 def game_loop():
-    jump = False
-    jump_counter = 0
+    
     game = True
+    scene = 'menu' 
     while game:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                game = False
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_f:
-                game = False
+        
+        
+        if scene == 'menu':
+            background.show_image(window) #menu scene
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    game = False
+                
+            
+        # if scene == 'game':
+        #     background.showimage() #game scene
+        
+        #     for event in pygame.event.get():
+        #         if event.type == pygame.QUIT:
+        #             game = False
+        #     main_hero.move_hero()
 
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_a:
-                    moving_left = True
-                    main_hero.x -= 3
-                if event.key == pygame.K_d:
-                    moving_right = True
-                    main_hero.x += 3
-                if event.key == pygame.K_SPACE:
-                    jump = True
+          
 
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_a:
-                    moving_left = False
-                if event.key == pygame.K_a:
-                    moving_right = False
-
-        if jump == True:
-            if jump_counter < 100:
-                main_hero.y -= 5
-                jump_counter += 5
-            elif jump_counter >= 100 and jump_counter < 200:
-                main_hero.y += 5
-                jump_counter += 5
-            else:
-                jump_counter = 0
-                jump = False
-
-
-        screen.fill([0, 255, 255])
-        pygame.draw.rect(screen, (255, 0, 0), main_hero)
+        
         pygame.display.flip()
-        clock.tick(60)
+        clock.tick(FPS)
 
 game_loop()
