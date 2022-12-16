@@ -11,9 +11,9 @@ class Button(models.Graphic):
                 if self.Y < mouse_pos[1] < self.Y + self.HEIGHT:
                     return True            
                 
-# menu_button_start = Button(x = 565, y = 200, width = 150, height = 100, img_path = 'images/start_button.jpg')
-# menu_button_settings = Button(x = 565, y = 350, width = 150, height = 100, img_path = 'images/settings_button.jpg')
-# menu_button_exit = Button(x = 565, y = 500, width = 150, height = 100, img_path = 'images/exit_button.jpg')
+menu_button_start = Button(x = 565, y = 200, width = 150, height = 100, img_path = 'images/start_button.jpg')
+menu_button_settings = Button(x = 565, y = 350, width = 150, height = 100, img_path = 'images/settings_button.jpg')
+menu_button_exit = Button(x = 565, y = 500, width = 150, height = 100, img_path = 'images/exit_button.jpg')
 
         
         

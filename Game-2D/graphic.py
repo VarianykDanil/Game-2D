@@ -15,6 +15,7 @@ class Graphic:
     def load_image(self):
         self.IMAGE = pygame.image.load(self.IMG_PATH)
         self.IMAGE = pygame.transform.scale(self.IMAGE, (self.WIDTH, self.HEIGHT))
+        
     
     def show_image(self, window):
         if self.IMAGE != None:

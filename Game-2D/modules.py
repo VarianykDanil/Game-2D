@@ -25,7 +25,12 @@ def create_map():
 create_map()
 print(len(list_objects))
 
+for i in list_objects:
+    print(i)
 
+if 
+list_blocks = []
+list_blocks.append(obj)
 
 
 

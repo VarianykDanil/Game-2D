@@ -2,6 +2,8 @@ import pygame
 from modules import *
 #import menu
 from models import *
+from main_hero import*
+
 
 
 pygame.init()
@@ -21,7 +23,7 @@ background = Graphic(x = 0,y = 0, width = 1280, height = 720, img_path = 'images
 
 def game_loop():  
     game = True
-    scene = 'game' 
+    scene = 'menu' 
     while game:
         if scene == 'menu':
             mouse_pos = pygame.mouse.get_pos()
@@ -30,13 +32,13 @@ def game_loop():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     game = False
-            # menu_button_start.show_image(window)
-            # menu_button_settings.show_image(window)
-            # menu_button_exit.show_image(window)
-            # if menu_button_start.check_click(mouse_pos,mouse_click) == True:
-            #     scene = 'game'
-            # if menu_button_exit.check_click(mouse_pos, mouse_click) == True:
-            #     game = Falsea
+            menu_button_start.show_image(window)
+            menu_button_settings.show_image(window)
+            menu_button_exit.show_image(window)
+            if menu_button_start.check_click(mouse_pos,mouse_click) == True:
+                scene = 'game'
+            if menu_button_exit.check_click(mouse_pos, mouse_click) == True:
+                game = False
         
         if scene == 'game':
             background.show_image(window) #game scene
@@ -44,6 +46,7 @@ def game_loop():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     game = False
+            
 
             for obj in list_objects:
                 obj.show_image(window)
