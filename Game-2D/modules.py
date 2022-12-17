@@ -1,6 +1,8 @@
 from models import Graphic, block_height, block_width, map_level1, main_hero
 
 list_objects = []
+list_blocks = []
+
 
 def create_map():
     x = 0
@@ -14,6 +16,7 @@ def create_map():
             if cell == '1':
                 obj = Graphic(x = x, y = y,height = block_height, width = block_width, img_path = 'images/block.jpg')
                 list_objects.append(obj)
+                list_blocks.append(obj)                 
             if cell == 'h':
                 main_hero.X = x
                 main_hero.Y = y
@@ -25,12 +28,11 @@ def create_map():
 create_map()
 print(len(list_objects))
 
-for i in list_objects:
-    print(i)
 
-if 
-list_blocks = []
-list_blocks.append(obj)
+
+
+
+
 
 
 

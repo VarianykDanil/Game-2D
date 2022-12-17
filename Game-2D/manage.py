@@ -42,7 +42,7 @@ def game_loop():
         
         if scene == 'game':
             background.show_image(window) #game scene
-            main_hero.move_hero(map_level1)
+            main_hero.move_hero(list_blocks)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     game = False
