@@ -1,8 +1,7 @@
 import pygame
 from modules import *
-#import menu
 from models import *
-from main_hero import*
+from main_hero import *
 
 
 
@@ -12,18 +11,20 @@ clock = pygame.time.Clock()
 
 
 
-window = pygame.display.set_mode((screen_width, screen_height))
+window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
-background = Graphic(x = 0,y = 0, width = 1280, height = 720, img_path = 'images/Fone.png')
+background = Graphic(x = 0,y = 0, width = 1280, height = 720, img_path = 'images/Fone.jpg')
 
 
- 
-   
+
+
 
 
 def game_loop():  
     game = True
     scene = 'menu' 
+
+    list_objects, list_blocks, list_doors = create_map(main_level_before)
     while game:
         if scene == 'menu':
             mouse_pos = pygame.mouse.get_pos()
@@ -36,13 +37,45 @@ def game_loop():
             menu_button_settings.show_image(window)
             menu_button_exit.show_image(window)
             if menu_button_start.check_click(mouse_pos,mouse_click) == True:
-                scene = 'game'
+                scene = main_hero.current_level
             if menu_button_exit.check_click(mouse_pos, mouse_click) == True:
                 game = False
         
-        if scene == 'game':
+        if scene == 0:#Main location - до событий игры
             background.show_image(window) #game scene
-            main_hero.move_hero(list_blocks)
+
+            for door in list_doors:
+                door.check_collide(main_hero, pygame.key.get_pressed()[pygame.K_e])
+            if main_hero.current_level != scene:
+                scene = main_hero.current_level
+                list_objects, list_blocks, list_doors = create_map(levels[main_hero.current_level])
+            print(list_blocks)
+            main_hero.move(list_blocks)
+            
+            #main_hero_anim_count += 1
+            
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    game = False
+            
+
+            for obj in list_objects:
+                obj.show_image(window)
+
+
+        if scene == 1:#Training location - Тренировка
+            background.show_image(window) #game scene
+            for door in list_doors:
+                door.check_collide(main_hero, pygame.key.get_pressed()[pygame.K_e])
+            if main_hero.current_level != scene:
+                scene = main_hero.current_level
+
+
+
+
+            main_hero.move(list_blocks)
+        
+            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     game = False
@@ -53,6 +86,7 @@ def game_loop():
 
         if scene == 'settings':
             background.show_image(window) #game scene
+            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     game = False
