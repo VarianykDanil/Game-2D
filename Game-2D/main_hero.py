@@ -3,14 +3,84 @@ from models import Graphic, levels
 import modules
 
 
+
 class Main_hero(Graphic):
     def __init__(self, SPEED, **kwargs):
         super().__init__(**kwargs)
         self.current_level = 0
+        self.main_hero_looks = 'R'
         self.SPEED = SPEED
         self.gravity_active = False
         self.jump_distance = 120
         self.isJump = False
+        self.isWalk = False
+        self.walk_counter = 0
+        self.list_walk_right = [
+    'images/gribori/w_r1.png',
+    'images/gribori/w_r2.png',
+    'images/gribori/w_r3.png',
+    'images/gribori/w_r4.png',
+    'images/gribori/w_r5.png',
+    'images/gribori/normal_r.png'
+] 
+        self.list_wal_left = [
+    'images/gribori/w_l1.png',
+    'images/gribori/w_l2.png',
+    'images/gribori/w_l3.png',
+    'images/gribori/w_l4.png',
+    'images/gribori/w_l5.png',
+    'images/gribori/normal_l.png'
+]
+        
+    def animation(self):
+        if self.main_hero_looks == 'R':
+            if self.walk_counter <= 15:
+                self.IMG_PATH = 'images/gribori/w_r1.png'
+                self.load_image()
+                self.walk_counter += 1
+            elif self.walk_counter >= 15 and self.walk_counter <= 30:
+                self.IMG_PATH = 'images/gribori/w_r2.png'
+                self.load_image()
+                self.walk_counter += 1
+            elif self.walk_counter >= 30 and self.walk_counter <= 45:
+                self.IMG_PATH = 'images/gribori/w_r3.png'
+                self.load_image()
+                self.walk_counter += 1
+            elif self.walk_counter >= 45 and self.walk_counter <= 60:
+                self.IMG_PATH = 'images/gribori/w_r4.png'
+                self.load_image()
+                self.walk_counter += 1
+            elif self.walk_counter >= 60 and self.walk_counter <= 75:
+                self.IMG_PATH = 'images/gribori/w_r5.png'
+                self.load_image()
+                self.walk_counter += 1
+            elif self.walk_counter > 75:
+                self.walk_counter = 0
+        if self.main_hero_looks == 'L':
+            if self.walk_counter <= 15:
+                self.IMG_PATH = 'images/gribori/w_l1.png'
+                self.load_image()
+                self.walk_counter += 1
+            elif self.walk_counter >= 15 and self.walk_counter <= 30:
+                self.IMG_PATH = 'images/gribori/w_l2.png'
+                self.load_image()
+                self.walk_counter += 1
+            elif self.walk_counter >= 30 and self.walk_counter <= 45:
+                self.IMG_PATH = 'images/gribori/w_l3.png'
+                self.load_image()
+                self.walk_counter += 1
+            elif self.walk_counter >= 45 and self.walk_counter <= 60:
+                self.IMG_PATH = 'images/gribori/w_l4.png'
+                self.load_image()
+                self.walk_counter += 1
+            elif self.walk_counter >= 60 and self.walk_counter <= 75:
+                self.IMG_PATH = 'images/gribori/w_l5.png'
+                self.load_image()
+                self.walk_counter += 1
+            elif self.walk_counter > 75:
+                self.walk_counter = 0
+    
+
            
     #def draw_previous_level(self):
     #    self.current_level -= 1
@@ -49,12 +119,9 @@ class Main_hero(Graphic):
     #        return list_objects, list_blocks
 
     def move(self, list_blocks):
-        
 
         keys = pygame.key.get_pressed()
-        
          
-           
         if keys[pygame.K_SPACE]:
             self.isJump = True
         if self.isJump == True:
@@ -67,14 +134,28 @@ class Main_hero(Graphic):
         
                   
         if keys[pygame.K_a]:
-            self.rect.x -= self.SPEED         
+            self.main_hero_looks = 'L'
+            self.rect.x -= self.SPEED
+            self.animation()
         if keys[pygame.K_d]:
-            self.rect.x += self.SPEED  
+            self.main_hero_looks = 'R'
+            self.rect.x += self.SPEED
+            self.animation()
         #Гравитация
         if self.gravity_active == True:
             self.rect.y += self.SPEED - 1
 
-        
+        # for event in pygame.event.get():
+        #     if event.type == pygame.KEYUP:
+        #         if event.key == pygame.K_d:
+        #             self.IMG_PATH = 'images/gribori/normal_r.png'
+        #             self.load_image()
+        #         if event.key == pygame.K_a:
+        #             self.IMG_PATH = 'images/gribori/normal_l.png'
+        #             self.load_image()
+
+
+
 
 
         for block in list_blocks:            
@@ -91,11 +172,7 @@ class Main_hero(Graphic):
                     self.jump_distance = 120
                     self.isJump = False
 
-        
-        
-        
-               
-        
-main_hero = Main_hero(SPEED = 5, x = 500, y = 600, width = 70, height = 70, img_path = 'images/gribori/gribori_normal_right.png')
 
 
+        
+main_hero = Main_hero(SPEED = 5, x = 500, y = 600, width = 70, height = 70, img_path = 'images/gribori/normal_r.png')

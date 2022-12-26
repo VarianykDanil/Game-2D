@@ -54,13 +54,15 @@ def create_map(map):
                 main_hero.rect.y = y
                 list_objects.append(main_hero)
             if cell == 'n':
-                obj = Door(x = x, y = y, height = BLOCK_HEIGHT, width = BLOCK_WIDTH, img_path = 'images/block.jpg', teleport_x = 64, teleport_y = None, direction = 1, enemy_list = None)
+                obj = Door(x = x, y = y, height = 72, width = 64, img_path = 'images/Door.jpg', teleport_x = 64, teleport_y = None, direction = 1, enemy_list = None)
                 list_objects.append(obj)
                 list_doors.append(obj)
             if cell == 'l':
-                obj = Door(x = x, y = y, height = BLOCK_HEIGHT, width = BLOCK_WIDTH, img_path = 'images/block.jpg', teleport_x = SCREEN_WIDTH - 64*2, teleport_y = None, direction = -1, enemy_list = None)
+                obj = Door(x = x, y = y, height = 72, width = 64, img_path = 'images/Door.jpg', teleport_x = SCREEN_WIDTH - 64*2, teleport_y = None, direction = -1, enemy_list = None)
                 list_objects.append(obj)
                 list_doors.append(obj)
+ 
+
             x += BLOCK_WIDTH
         x = 0   
         y += BLOCK_HEIGHT
