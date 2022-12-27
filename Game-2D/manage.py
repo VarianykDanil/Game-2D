@@ -52,6 +52,8 @@ def game_loop():
             if main_hero.current_level != scene:
                 scene = main_hero.current_level
                 list_objects, list_blocks, list_doors = create_map(levels[main_hero.current_level])
+            main_hero.attack()
+            
             main_hero.move(list_blocks)
             
             
@@ -151,7 +153,7 @@ def game_loop():
                     if event.key == pygame.K_d:
                         main_hero.IMG_PATH = 'images/gribori/normal_r.png'
                         main_hero.load_image()
-                if event.key == pygame.K_a:
+                    if event.key == pygame.K_a:
                         main_hero.IMG_PATH = 'images/gribori/normal_l.png'
                         main_hero.load_image()
             

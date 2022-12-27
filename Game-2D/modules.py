@@ -49,15 +49,23 @@ def create_map(map):
                 obj = Graphic(x = x, y = y, height = BLOCK_HEIGHT, width = BLOCK_WIDTH, img_path = 'images/block.jpg')
                 list_objects.append(obj)
                 list_blocks.append(obj)
-            if cell == 'h':# - hero
-                main_hero.rect.x = x
-                main_hero.rect.y = y
-                list_objects.append(main_hero)
-            if cell == 'n':
+            if cell == 'c':# - chest
+                obj = Graphic(x = x, y = y, height = BLOCK_HEIGHT, width = BLOCK_WIDTH, img_path = 'images/block.jpg')
+                list_objects.append(obj)
+                list_blocks.append(obj)
+            if cell == 'e':# - enemy
+                obj = Graphic(x = x, y = y, height = BLOCK_HEIGHT, width = BLOCK_WIDTH, img_path = 'images/block.jpg')
+                list_objects.append(obj)
+                list_blocks.append(obj)
+            #if cell == 'h':# - hero
+            #    main_hero.rect.x = main_hero.rect.x
+            #    main_hero.rect.y = main_hero.rect.y
+            #    list_objects.append(main_hero)
+            if cell == 'n':# - door to next level
                 obj = Door(x = x, y = y, height = 72, width = 64, img_path = 'images/Door.jpg', teleport_x = 64, teleport_y = None, direction = 1, enemy_list = None)
                 list_objects.append(obj)
                 list_doors.append(obj)
-            if cell == 'l':
+            if cell == 'l':# - door to last level
                 obj = Door(x = x, y = y, height = 72, width = 64, img_path = 'images/Door.jpg', teleport_x = SCREEN_WIDTH - 64*2, teleport_y = None, direction = -1, enemy_list = None)
                 list_objects.append(obj)
                 list_doors.append(obj)
@@ -66,6 +74,7 @@ def create_map(map):
             x += BLOCK_WIDTH
         x = 0   
         y += BLOCK_HEIGHT
+    list_objects.append(main_hero)
     return list_objects, list_blocks, list_doors
 
 
